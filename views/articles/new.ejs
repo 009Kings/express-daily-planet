@@ -1,1 +1,18 @@
-<h1>This here is a new article</h1>
+<h1>Post a New Article</h1>
+<div class="row"></div>
+<form class="col s12" action="/articles" method="post">
+    <div class="row">
+        <div class="input-field col s7">
+            <input id="title" name="title" class="materialize-textarea" type="text"></input>
+            <label for="title">Title</label>
+        </div>
+        <div class="input-field col s12">
+            <textarea id="article-body" class="materialize-textarea" name="body"></textarea>
+            <label for="article-body">Article goes here</label>
+        </div>
+        <div class="col s2">
+            <button class="btn waves-effect waves-light center" type="submit">Submit</button>
+        </div>
+    </div>
+</form>
+</div>

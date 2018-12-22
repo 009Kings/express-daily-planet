@@ -1,10 +1,15 @@
 // Requires
 var express = require("express");
+var layouts = require("express-ejs-layouts");
 
 // Set app
 var app = express();
 
 app.set("view engine", "ejs");
+
+// Uses
+app.use(layouts);
+app.use(express.static('static'));
 
 // routes
 app.get("/", (req, res)=>{
