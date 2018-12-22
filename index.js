@@ -1,6 +1,8 @@
 // Requires
 var express = require("express");
 var layouts = require("express-ejs-layouts");
+var db = require("./models");
+var bodyparser = require("body-parser");
 
 // Set app
 var app = express();
@@ -10,6 +12,7 @@ app.set("view engine", "ejs");
 // Uses
 app.use(layouts);
 app.use(express.static('static'));
+app.use(bodyparser.urlencoded({ extended: false }));
 
 // routes
 app.get("/", (req, res)=>{
@@ -26,7 +29,10 @@ app.get('/contact', (req, res) => {
 
 // articles
 app.get('/articles', (req, res) => {
-    res.render("articles/index");
+    db.article.findAll().then((article)=>{
+         res.render("articles/index", {articles: article});
+    });
+   
 });
 
 app.get('/articles/new', (req, res) => {
@@ -34,11 +40,22 @@ app.get('/articles/new', (req, res) => {
 });
 
 app.post('/articles', (req, res) => {
-    res.redirect("/articles");
+    db.article.create({
+        title: req.body.title,
+        body: req.body.body
+    }).then((data)=>{
+        res.redirect("/articles");
+    }).catch((error)=>{
+        console.log("You fucked: ", error);
+    })
 });
 
 app.get('/articles/:id', (req, res) => {
-    res.render("articles/show", {id: req.params.id});
+    db.article.findById(req.params.id).then((article)=>{
+        res.render("articles/show", {article: article});
+   }).catch((err)=>{
+       console.log("You fucked, ", err);
+   });
 });
 
 // Listen
